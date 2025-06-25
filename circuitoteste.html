@@ -4,58 +4,217 @@
   <meta charset="UTF-8">
   <title>Circuito 2025.01 - Formulário</title>
   <style>
-    /* ... (mesmo CSS anterior) ... */
+    body {
+      background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .form-card {
+      background: #f6fff4;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(56,142,60,0.13);
+      padding: 36px 32px 28px 32px;
+      max-width: 480px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: stretch;
+      border: 2px solid #a8e063;
+      transition: box-shadow 0.2s;
+    }
+    .form-card:focus-within, .form-card:hover {
+      box-shadow: 0 12px 36px rgba(56,142,60,0.18);
+      border-color: #56ab2f;
+    }
+    .form-title {
+      font-size: 2.1rem;
+      color: #388e3c;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .form-desc {
+      text-align: center;
+      color: #388e3c;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .form-label {
+      font-weight: 600;
+      color: #388e3c;
+      margin-bottom: 4px;
+      font-size: 1.08rem;
+    }
+    .form-input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1.5px solid #a8e063;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      background: #eaffea;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: #56ab2f;
+      outline: none;
+      background: #f6fff4;
+    }
+    .form-btn {
+      background: linear-gradient(90deg, #a8e063, #56ab2f);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 2px 8px #a8e06333;
+    }
+    .form-btn:active {
+      transform: scale(0.98);
+      background: linear-gradient(90deg, #56ab2f, #a8e063);
+    }
+    .form-btn:disabled {
+      background: #bdbdbd;
+      cursor: not-allowed;
+    }
+    .quiz-options label {
+      display: block;
+      margin-bottom: 6px;
+      cursor: pointer;
+      padding: 7px 10px;
+      border-radius: 7px;
+      transition: background 0.15s;
+    }
+    .quiz-options input[type="radio"]:focus + label,
+    .quiz-options label:hover {
+      background: #eaffea;
+    }
+    #sending-loader, #resultado, #quiz-form, #timer {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+    #mensagem-resultado {
+      font-size: 1.3rem;
+      color: #388e3c;
+      margin: 18px 0;
+    }
+    .correcao {
+      margin-top: 18px;
+      background: #eaffea;
+      border-radius: 10px;
+      padding: 10px 16px;
+      color: #388e3c;
+      font-size: 1rem;
+    }
+    .step { display: none; flex-direction: column; gap: 12px; }
+    .step.active { display: flex; }
+    @media (max-width: 600px) {
+      .form-card {
+        padding: 18px 6vw 18px 6vw;
+        max-width: 98vw;
+      }
+      .form-title { font-size: 1.4rem; }
+    }
   </style>
 </head>
 <body>
+  <!-- Página inicial -->
+  <div class="form-card" id="inicio">
+    <div class="form-title">Bem-vindo ao Circuito 2025.01!</div>
+    <div class="form-desc">
+      <b>Regras do circuito:</b><br><br>
+      <ul style="text-align:left; color:#388e3c; font-size:1rem; margin:0 0 10px 0; padding-left:18px;">
+        <li>Não é permitido sair da página. Caso saia, o formulário será automaticamente enviado.</li>
+        <li>Você terá um tempo estipulado. Se ultrapassar esse tempo, o formulário será enviado automaticamente.</li>
+        <li>Em caso de dúvidas, fale com um professor.</li>
+      </ul>
+      <b>Boa sorte!</b>
+    </div>
+    <button class="form-btn" onclick="comecar()">Começar</button>
+  </div>
+
+  <!-- Timer -->
+  <div id="timer" style="font-size:1.2rem; color:#388e3c; font-weight:700; margin-bottom:12px;">
+    Tempo restante: <span id="timer-count">10:00</span>
+  </div>
+
+  <!-- Formulário em etapas -->
   <form class="form-card" id="quiz-form" autocomplete="off">
     <div class="form-title">Circuito 2025.01</div>
     <div class="form-desc">História e Geografia<br>Responda todas as perguntas e clique em Enviar!</div>
 
-    <label class="form-label" for="nome">Nome da equipe</label>
-    <input class="form-input" type="text" id="nome" name="nome" required placeholder="Digite o nome da equipe">
-
-    <div class="form-label">1) Quanto tempo a Terra demora para dar uma volta completa em torno dela mesma?</div>
-    <div class="quiz-options">
-      <label><input type="radio" name="q1" value="Aproximadamente 24 horas" required> a) Aproximadamente 24 horas</label>
-      <label><input type="radio" name="q1" value="365 dias"> b) 365 dias</label>
-      <label><input type="radio" name="q1" value="7 dias"> c) 7 dias</label>
-      <label><input type="radio" name="q1" value="365 ou 366 dias"> d) 365 ou 366 dias</label>
+    <!-- Etapa 1: Nome da equipe -->
+    <div class="step active">
+      <label class="form-label" for="nome">Nome da equipe</label>
+      <input class="form-input" type="text" id="nome" name="nome" required placeholder="Digite o nome da equipe">
+      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
     </div>
-
-    <div class="form-label">2) Quais são as fases da Lua?</div>
-    <div class="quiz-options">
-      <label><input type="radio" name="q2" value="Nova, cheia e superlua" required> a) Nova, cheia e superlua</label>
-      <label><input type="radio" name="q2" value="Penumbral, lunar parcial, lunar total e cheia"> b) Penumbral, lunar parcial, lunar total e cheia</label>
-      <label><input type="radio" name="q2" value="Nova, cheia, minguante e lua de sangue"> c) Nova, cheia, minguante e lua de sangue</label>
-      <label><input type="radio" name="q2" value="Nova, crescente, cheia e minguante"> d) Nova, crescente, cheia e minguante</label>
+    <!-- Etapa 2: Pergunta 1 -->
+    <div class="step">
+      <div class="form-label">1) Quanto tempo a Terra demora para dar uma volta completa em torno dela mesma?</div>
+      <div class="quiz-options">
+        <label><input type="radio" name="q1" value="Aproximadamente 24 horas" required> a) Aproximadamente 24 horas</label>
+        <label><input type="radio" name="q1" value="365 dias"> b) 365 dias</label>
+        <label><input type="radio" name="q1" value="7 dias"> c) 7 dias</label>
+        <label><input type="radio" name="q1" value="365 ou 366 dias"> d) 365 ou 366 dias</label>
+      </div>
+      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
     </div>
-
-    <div class="form-label">3) Um anel tem 3 pedras preciosas. Quantas pedras preciosas têm 11 anéis?</div>
-    <div class="quiz-options">
-      <label><input type="radio" name="q3" value="33" required> a) 33</label>
-      <label><input type="radio" name="q3" value="110"> b) 110</label>
-      <label><input type="radio" name="q3" value="333"> c) 333</label>
-      <label><input type="radio" name="q3" value="30"> d) 30</label>
+    <!-- Etapa 3: Pergunta 2 -->
+    <div class="step">
+      <div class="form-label">2) Quais são as fases da Lua?</div>
+      <div class="quiz-options">
+        <label><input type="radio" name="q2" value="Nova, cheia e superlua" required> a) Nova, cheia e superlua</label>
+        <label><input type="radio" name="q2" value="Penumbral, lunar parcial, lunar total e cheia"> b) Penumbral, lunar parcial, lunar total e cheia</label>
+        <label><input type="radio" name="q2" value="Nova, cheia, minguante e lua de sangue"> c) Nova, cheia, minguante e lua de sangue</label>
+        <label><input type="radio" name="q2" value="Nova, crescente, cheia e minguante"> d) Nova, crescente, cheia e minguante</label>
+      </div>
+      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
     </div>
-
-    <div class="form-label">4) Qual a maior floresta tropical do mundo?</div>
-    <div class="quiz-options">
-      <label><input type="radio" name="q4" value="Mata Atlântica" required> a) Mata Atlântica</label>
-      <label><input type="radio" name="q4" value="Pampas"> b) Pampas</label>
-      <label><input type="radio" name="q4" value="Pantanal"> c) Pantanal</label>
-      <label><input type="radio" name="q4" value="Floresta Amazônica"> d) Floresta Amazônica</label>
+    <!-- Etapa 4: Pergunta 3 -->
+    <div class="step">
+      <div class="form-label">3) Um anel tem 3 pedras preciosas. Quantas pedras preciosas têm 11 anéis?</div>
+      <div class="quiz-options">
+        <label><input type="radio" name="q3" value="33" required> a) 33</label>
+        <label><input type="radio" name="q3" value="110"> b) 110</label>
+        <label><input type="radio" name="q3" value="333"> c) 333</label>
+        <label><input type="radio" name="q3" value="30"> d) 30</label>
+      </div>
+      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
     </div>
-
-    <div class="form-label">5) Qual a nacionalidade de Napoleão Bonaparte?</div>
-    <div class="quiz-options">
-      <label><input type="radio" name="q5" value="Francesa" required> a) Francesa</label>
-      <label><input type="radio" name="q5" value="Brasileira"> b) Brasileira</label>
-      <label><input type="radio" name="q5" value="Mexicana"> c) Mexicana</label>
-      <label><input type="radio" name="q5" value="Japonesa"> d) Japonesa</label>
+    <!-- Etapa 5: Pergunta 4 -->
+    <div class="step">
+      <div class="form-label">4) Qual a maior floresta tropical do mundo?</div>
+      <div class="quiz-options">
+        <label><input type="radio" name="q4" value="Mata Atlântica" required> a) Mata Atlântica</label>
+        <label><input type="radio" name="q4" value="Pampas"> b) Pampas</label>
+        <label><input type="radio" name="q4" value="Pantanal"> c) Pantanal</label>
+        <label><input type="radio" name="q4" value="Floresta Amazônica"> d) Floresta Amazônica</label>
+      </div>
+      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
     </div>
-
-    <button class="form-btn" type="submit" id="enviar-btn">Enviar respostas</button>
+    <!-- Etapa 6: Pergunta 5 -->
+    <div class="step">
+      <div class="form-label">5) Qual a nacionalidade de Napoleão Bonaparte?</div>
+      <div class="quiz-options">
+        <label><input type="radio" name="q5" value="Francesa" required> a) Francesa</label>
+        <label><input type="radio" name="q5" value="Brasileira"> b) Brasileira</label>
+        <label><input type="radio" name="q5" value="Mexicana"> c) Mexicana</label>
+        <label><input type="radio" name="q5" value="Japonesa"> d) Japonesa</label>
+      </div>
+      <button type="submit" class="form-btn" id="enviar-btn">Enviar respostas</button>
+    </div>
   </form>
 
   <div id="sending-loader" class="form-card" style="display:none;align-items:center;justify-content:center;">
@@ -63,22 +222,125 @@
   </div>
 
   <div id="resultado" class="form-card" style="display:none; flex-direction:column; align-items:center;">
-    <div class="form-title">Obrigado!</div>
+    <div class="form-title">Resultado</div>
     <div id="mensagem-resultado" style="font-size:1.3rem; color:#388e3c; margin:18px 0;"></div>
+    <div id="correcao" class="correcao"></div>
     <button class="form-btn" onclick="window.location.reload()">Enviar outra resposta</button>
   </div>
 
   <script>
+    // Gabarito para correção
+    const gabarito = [
+      "Aproximadamente 24 horas", // q1
+      "Nova, crescente, cheia e minguante", // q2
+      "33", // q3
+      "Floresta Amazônica", // q4
+      "Francesa" // q5
+    ];
+    const nomesQuestoes = [
+      "q1", "q2", "q3", "q4", "q5"
+    ];
+    const textosQuestoes = [
+      "1) Quanto tempo a Terra demora para dar uma volta completa em torno dela mesma?",
+      "2) Quais são as fases da Lua?",
+      "3) Um anel tem 3 pedras preciosas. Quantas pedras preciosas têm 11 anéis?",
+      "4) Qual a maior floresta tropical do mundo?",
+      "5) Qual a nacionalidade de Napoleão Bonaparte?"
+    ];
+
+    let tempo = 600; // 10 minutos
+    let timerInterval;
+    let enviado = false;
+
+    // Wizard de etapas
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.step');
+    function nextStep() {
+      // Validação dos campos obrigatórios da etapa atual
+      const inputs = steps[currentStep].querySelectorAll('input, select');
+      for (let input of inputs) {
+        if (input.type === "radio") {
+          const radios = steps[currentStep].querySelectorAll(`input[name="${input.name}"]`);
+          if (![...radios].some(r => r.checked)) {
+            alert('Selecione uma alternativa!');
+            return;
+          }
+        } else if (!input.checkValidity()) {
+          input.reportValidity();
+          return;
+        }
+      }
+      steps[currentStep].classList.remove('active');
+      currentStep++;
+      if (steps[currentStep]) {
+        steps[currentStep].classList.add('active');
+      }
+    }
+
+    function comecar() {
+      document.getElementById('inicio').style.display = 'none';
+      document.getElementById('quiz-form').style.display = 'flex';
+      document.getElementById('timer').style.display = 'block';
+      iniciarTimer();
+      // Envio automático se sair da página
+      window.addEventListener('blur', autoEnviar);
+    }
+
+    function iniciarTimer() {
+      const timerCount = document.getElementById('timer-count');
+      timerInterval = setInterval(() => {
+        if (tempo <= 0) {
+          clearInterval(timerInterval);
+          autoEnviar();
+          timerCount.textContent = "Tempo esgotado!";
+          return;
+        }
+        let min = Math.floor(tempo / 60);
+        let seg = tempo % 60;
+        timerCount.textContent = `${min}:${String(seg).padStart(2, '0')}`;
+        tempo--;
+      }, 1000);
+    }
+
+    function autoEnviar() {
+      if (!enviado) {
+        enviado = true;
+        document.getElementById('quiz-form').requestSubmit();
+      }
+    }
+
+    // Envio do formulário
     const form = document.getElementById('quiz-form');
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+      enviado = true;
+      clearInterval(timerInterval);
+      window.removeEventListener('blur', autoEnviar);
 
       form.style.display = 'none';
+      document.getElementById('timer').style.display = 'none';
       document.getElementById('sending-loader').style.display = 'flex';
 
+      // Corrigir e mostrar resultado
+      let acertos = 0;
+      let correcaoHTML = '';
+      for (let i = 0; i < gabarito.length; i++) {
+        const marcada = form.querySelector(`input[name="${nomesQuestoes[i]}"]:checked`);
+        const resposta = marcada ? marcada.value : '';
+        if (resposta === gabarito[i]) {
+          acertos++;
+          correcaoHTML += `<b>${textosQuestoes[i]}</b><br><span style="color:green">✔ Correto!</span><br><br>`;
+        } else {
+          correcaoHTML += `<b>${textosQuestoes[i]}</b><br>
+            <span style="color:red">✘ Sua resposta: ${resposta || '<i>Não respondida</i>'}</span><br>
+            <span style="color:green">✔ Correto: ${gabarito[i]}</span><br><br>`;
+        }
+      }
+
+      // Monta os dados do formulário
       const formData = new FormData(form);
 
-      // Substitua pela URL do seu Apps Script Web App:
+      // Envia para o Apps Script
       fetch('https://script.google.com/macros/s/AKfycbyCsWWKxOHwO9jiapVDbOIZfPbXVSrSptMI5e1QS6SWZVV_Y6tzzSjwePJGNpLnK101Ew/exec', {
         method: "POST",
         body: formData
@@ -87,13 +349,15 @@
         document.getElementById('sending-loader').style.display = 'none';
         document.getElementById('resultado').style.display = 'flex';
         document.getElementById('mensagem-resultado').innerHTML =
-          `<span style="color:green">Respostas enviadas com sucesso!</span>`;
+          `Você acertou <b>${acertos}</b> de <b>${gabarito.length}</b> perguntas!`;
+        document.getElementById('correcao').innerHTML = correcaoHTML;
       })
       .catch(() => {
         document.getElementById('sending-loader').style.display = 'none';
         document.getElementById('resultado').style.display = 'flex';
         document.getElementById('mensagem-resultado').innerHTML =
           `<span style="color:red">Falha ao enviar para o servidor.</span>`;
+        document.getElementById('correcao').innerHTML = correcaoHTML;
       });
     });
   </script>
