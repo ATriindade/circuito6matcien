@@ -5,7 +5,7 @@
   <title>Circuito 2025.01 - Formulário</title>
   <style>
     body {
-      background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
+      background: linear-gradient(135deg, #0b1a13 0%, #163325 100%);
       font-family: 'Segoe UI', Arial, sans-serif;
       min-height: 100vh;
       margin: 0;
@@ -15,142 +15,270 @@
       justify-content: center;
     }
     .form-card {
-      background: #f6fff4;
-      border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(56,142,60,0.13);
-      padding: 36px 32px 28px 32px;
-      max-width: 480px;
+      background: #162c20;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px #0a1a12, 0 1.5px 8px #1b3c2b66;
+      padding: 32px 28px 28px 28px;
+      max-width: 430px;
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 18px;
       align-items: stretch;
-      border: 2px solid #a8e063;
-      transition: box-shadow 0.2s;
+      border: 2.5px solid #1de982;
+      position: relative;
+      overflow: hidden;
     }
-    .form-card:focus-within, .form-card:hover {
-      box-shadow: 0 12px 36px rgba(56,142,60,0.18);
-      border-color: #56ab2f;
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: #0e1c14;
+      border-radius: 0 0 12px 12px;
+      margin-bottom: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 8px #1de98233;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #1de982 0%, #43e97b 100%);
+      transition: width 0.4s cubic-bezier(.4,2.2,.2,1);
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 0 8px #1de98299;
+    }
+    #timer-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 18px 0 0 0;
+    }
+    #timer {
+      background: #0e1c14;
+      color: #1de982;
+      font-weight: 900;
+      font-size: 1.35rem;
+      border-radius: 8px;
+      padding: 10px 24px;
+      letter-spacing: 2px;
+      border: 2px solid #1de982;
+      box-shadow: 0 0 12px #1de98244;
+      font-family: 'Courier New', Courier, monospace;
+      text-shadow: 0 0 8px #1de98288;
     }
     .form-title {
       font-size: 2.1rem;
-      color: #388e3c;
-      font-weight: 800;
+      color: #1de982;
+      font-weight: 900;
       text-align: center;
-      margin-bottom: 8px;
+      margin: 24px 0 2px 0;
       letter-spacing: 1px;
+      text-shadow: 0 2px 8px #1de98255;
     }
     .form-desc {
       text-align: center;
-      color: #388e3c;
-      font-size: 1.1rem;
+      color: #b2dfdb;
+      font-size: 1.13rem;
       margin-bottom: 10px;
     }
     .form-label {
       font-weight: 600;
-      color: #388e3c;
+      color: #1de982;
       margin-bottom: 4px;
-      font-size: 1.08rem;
+      font-size: 1.13rem;
+      text-shadow: 0 1px 4px #1de98233;
     }
     .form-input {
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
-      border: 1.5px solid #a8e063;
-      font-size: 1rem;
+      border: 2px solid #1de982;
+      font-size: 1.08rem;
       margin-bottom: 10px;
-      background: #eaffea;
-      transition: border-color 0.2s;
+      background: #0e1c14;
+      color: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 8px #1de98222;
     }
     .form-input:focus {
-      border-color: #56ab2f;
+      border-color: #43e97b;
       outline: none;
-      background: #f6fff4;
+      background: #162c20;
+      box-shadow: 0 0 12px #1de98255;
     }
     .form-btn {
-      background: linear-gradient(90deg, #a8e063, #56ab2f);
-      color: #fff;
+      background: linear-gradient(90deg, #1de982 0%, #43e97b 100%);
+      color: #10281b;
       border: none;
       border-radius: 10px;
-      padding: 14px 0;
-      font-size: 1.15rem;
-      font-weight: 700;
+      padding: 15px 0;
+      font-size: 1.18rem;
+      font-weight: 800;
       cursor: pointer;
       margin-top: 10px;
-      transition: background 0.2s, transform 0.15s;
-      box-shadow: 0 2px 8px #a8e06333;
+      transition: 
+        background 0.2s, 
+        transform 0.15s, 
+        box-shadow 0.2s,
+        filter 0.2s;
+      box-shadow: 0 0 16px #1de98255, 0 2px 8px #1de98222;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 4px #fff8;
     }
-    .form-btn:active {
-      transform: scale(0.98);
-      background: linear-gradient(90deg, #56ab2f, #a8e063);
+    .form-btn:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 0 32px #1de982cc, 0 2px 16px #1de98244;
+      transform: scale(1.04);
     }
-    .form-btn:disabled {
-      background: #bdbdbd;
-      cursor: not-allowed;
+    .btn-voltar {
+      background: transparent !important;
+      color: #1de982 !important;
+      border: 2px solid #1de982 !important;
+      box-shadow: none !important;
+      margin-top: 10px;
+      margin-bottom: 0;
+      font-weight: 700;
+      transition: 
+        background 0.2s, 
+        color 0.2s, 
+        border 0.2s, 
+        transform 0.15s, 
+        box-shadow 0.2s;
+    }
+    .btn-voltar:hover {
+      background: #0e1c14 !important;
+      color: #43e97b !important;
+      border-color: #43e97b !important;
+      box-shadow: 0 0 16px #1de98288;
+      transform: scale(1.04);
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .quiz-options input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
     }
     .quiz-options label {
-      display: block;
-      margin-bottom: 6px;
+      position: relative;
       cursor: pointer;
-      padding: 7px 10px;
-      border-radius: 7px;
-      transition: background 0.15s;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 1.08rem;
+      transition: background 0.15s, color 0.15s, border 0.15s;
+      border: 2px solid transparent;
+      color: #b2dfdb;
+      background: #1b3c2b;
+      box-shadow: 0 0 4px #1de98222;
     }
     .quiz-options input[type="radio"]:focus + label,
     .quiz-options label:hover {
-      background: #eaffea;
+      background: #10281b;
+      border-color: #1de982;
+      color: #1de982;
+      box-shadow: 0 0 8px #1de98255;
     }
-    #sending-loader, #resultado, #quiz-form, #timer {
+    .quiz-options input[type="radio"]:checked + label {
+      background: #10281b;
+      border: 2.5px solid #43e97b; /* Borda verde neon mais grossa */
+      color: #1de982;
+      font-weight: bold;
+      box-shadow: 0 0 24px #1de982cc, 0 0 8px #1de98299 inset, 0 0 12px #1de98299;
+      transform: scale(1.04);
+      transition: box-shadow 0.2s, background 0.2s, color 0.2s, transform 0.2s, border 0.2s;
+      z-index: 1;
+    }
+    .quiz-options input[type="radio"]:checked + label::before {
+      background: #1de982;
+      border-color: #43e97b;
+      box-shadow: 0 0 8px #1de98299, 0 0 0 4px #1de98233;
+    }
+    #sending-loader, #resultado, #quiz-form {
       display: none;
       flex-direction: column;
       align-items: center;
     }
     #mensagem-resultado {
       font-size: 1.3rem;
-      color: #388e3c;
+      color: #1de982;
       margin: 18px 0;
+      text-shadow: 0 1px 4px #1de98255;
     }
     .correcao {
       margin-top: 18px;
-      background: #eaffea;
+      background: #0e1c14;
       border-radius: 10px;
       padding: 10px 16px;
-      color: #388e3c;
-      font-size: 1rem;
+      color: #b2dfdb;
+      font-size: 1.04rem;
+      border: 2px solid #1de982;
+      box-shadow: 0 0 8px #1de98233;
     }
     .step { display: none; flex-direction: column; gap: 12px; }
-    .step.active { display: flex; }
+    .step.active { display: flex; animation: fadeIn 0.5s;}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    ul.regras {
+      text-align:left;
+      color:#b2dfdb;
+      font-size:1.04rem;
+      margin:0 0 10px 0;
+      padding-left:18px;
+    }
+    .botoes-etapa {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .form-btn, .btn-voltar {
+      flex: 1 1 0;
+      min-width: 0;
+    }
     @media (max-width: 600px) {
       .form-card {
-        padding: 18px 6vw 18px 6vw;
-        max-width: 98vw;
+        padding: 8px 2vw 8px 2vw;
+        max-width: 99vw;
       }
-      .form-title { font-size: 1.4rem; }
+      .form-title { font-size: 1.2rem; }
+      #timer { font-size: 1.05rem; padding: 7px 8px;}
     }
   </style>
 </head>
 <body>
-  <!-- Página inicial -->
   <div class="form-card" id="inicio">
-    <div class="form-title">Bem-vindo ao Circuito 2025.01!</div>
-    <div class="form-desc">
-      <b>Regras do circuito:</b><br><br>
-      <ul style="text-align:left; color:#388e3c; font-size:1rem; margin:0 0 10px 0; padding-left:18px;">
-        <li>Não é permitido sair da página. Caso saia, o formulário será automaticamente enviado.</li>
-        <li>Você terá um tempo estipulado. Se ultrapassar esse tempo, o formulário será enviado automaticamente.</li>
-        <li>Em caso de dúvidas, fale com um professor.</li>
-      </ul>
-      <b>Boa sorte!</b>
+    <div style="display:flex;justify-content:center;">
+      <span style="font-size:3.2rem; color:#1de982; filter:drop-shadow(0 0 8px #1de98288); margin-bottom:10px;">🎮</span>
     </div>
-    <button class="form-btn" onclick="comecar()">Começar</button>
+    <div class="form-title" style="font-size:2.5rem; margin-bottom:0;">Circuito 2025.01</div>
+    <div class="form-desc" style="font-size:1.18rem; margin-bottom:18px;">
+      <b>Bem-vindo ao desafio!</b><br>
+      <span style="color:#1de982;">História e Geografia</span><br>
+      <span style="color:#b2dfdb;">Responda todas as perguntas no tempo e tente bater o recorde!</span>
+    </div>
+    <div style="background:#0e1c14;border-radius:12px;padding:14px 18px;margin-bottom:18px;border:1.5px solid #1de982;">
+      <ul class="regras" style="margin:0;">
+        <li>Não saia da página durante o quiz.</li>
+        <li>Tempo limitado: <b>10 minutos</b>.</li>
+        <li>Fale com um professor em caso de dúvida.</li>
+      </ul>
+    </div>
+    <button class="form-btn" style="font-size:1.25rem;box-shadow:0 0 18px #1de98288;" onclick="comecar()">Começar!</button>
   </div>
 
-  <!-- Timer -->
-  <div id="timer" style="font-size:1.2rem; color:#388e3c; font-weight:700; margin-bottom:12px;">
-    Tempo restante: <span id="timer-count">10:00</span>
-  </div>
-
-  <!-- Formulário em etapas -->
   <form class="form-card" id="quiz-form" autocomplete="off">
+    <div class="progress-bar-bg">
+      <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+    </div>
+    <div id="timer-container">
+      <div id="timer">
+        ⏱ <span id="timer-count">10:00</span>
+      </div>
+    </div>
     <div class="form-title">Circuito 2025.01</div>
     <div class="form-desc">História e Geografia<br>Responda todas as perguntas e clique em Enviar!</div>
 
@@ -158,73 +286,111 @@
     <div class="step active">
       <label class="form-label" for="nome">Nome da equipe</label>
       <input class="form-input" type="text" id="nome" name="nome" required placeholder="Digite o nome da equipe">
-      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
     </div>
     <!-- Etapa 2: Pergunta 1 -->
     <div class="step">
       <div class="form-label">1) Quanto tempo a Terra demora para dar uma volta completa em torno dela mesma?</div>
       <div class="quiz-options">
-        <label><input type="radio" name="q1" value="Aproximadamente 24 horas" required> a) Aproximadamente 24 horas</label>
-        <label><input type="radio" name="q1" value="365 dias"> b) 365 dias</label>
-        <label><input type="radio" name="q1" value="7 dias"> c) 7 dias</label>
-        <label><input type="radio" name="q1" value="365 ou 366 dias"> d) 365 ou 366 dias</label>
+        <input type="radio" id="q1a" name="q1" value="Aproximadamente 24 horas" required>
+        <label for="q1a">a) Aproximadamente 24 horas</label>
+        <input type="radio" id="q1b" name="q1" value="365 dias">
+        <label for="q1b">b) 365 dias</label>
+        <input type="radio" id="q1c" name="q1" value="7 dias">
+        <label for="q1c">c) 7 dias</label>
+        <input type="radio" id="q1d" name="q1" value="365 ou 366 dias">
+        <label for="q1d">d) 365 ou 366 dias</label>
       </div>
-      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
     </div>
     <!-- Etapa 3: Pergunta 2 -->
     <div class="step">
       <div class="form-label">2) Quais são as fases da Lua?</div>
       <div class="quiz-options">
-        <label><input type="radio" name="q2" value="Nova, cheia e superlua" required> a) Nova, cheia e superlua</label>
-        <label><input type="radio" name="q2" value="Penumbral, lunar parcial, lunar total e cheia"> b) Penumbral, lunar parcial, lunar total e cheia</label>
-        <label><input type="radio" name="q2" value="Nova, cheia, minguante e lua de sangue"> c) Nova, cheia, minguante e lua de sangue</label>
-        <label><input type="radio" name="q2" value="Nova, crescente, cheia e minguante"> d) Nova, crescente, cheia e minguante</label>
+        <input type="radio" id="q2a" name="q2" value="Nova, cheia e superlua" required>
+        <label for="q2a">a) Nova, cheia e superlua</label>
+        <input type="radio" id="q2b" name="q2" value="Penumbral, lunar parcial, lunar total e cheia">
+        <label for="q2b">b) Penumbral, lunar parcial, lunar total e cheia</label>
+        <input type="radio" id="q2c" name="q2" value="Nova, cheia, minguante e lua de sangue">
+        <label for="q2c">c) Nova, cheia, minguante e lua de sangue</label>
+        <input type="radio" id="q2d" name="q2" value="Nova, crescente, cheia e minguante">
+        <label for="q2d">d) Nova, crescente, cheia e minguante</label>
       </div>
-      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
     </div>
     <!-- Etapa 4: Pergunta 3 -->
     <div class="step">
       <div class="form-label">3) Um anel tem 3 pedras preciosas. Quantas pedras preciosas têm 11 anéis?</div>
       <div class="quiz-options">
-        <label><input type="radio" name="q3" value="33" required> a) 33</label>
-        <label><input type="radio" name="q3" value="110"> b) 110</label>
-        <label><input type="radio" name="q3" value="333"> c) 333</label>
-        <label><input type="radio" name="q3" value="30"> d) 30</label>
+        <input type="radio" id="q3a" name="q3" value="33" required>
+        <label for="q3a">a) 33</label>
+        <input type="radio" id="q3b" name="q3" value="110">
+        <label for="q3b">b) 110</label>
+        <input type="radio" id="q3c" name="q3" value="333">
+        <label for="q3c">c) 333</label>
+        <input type="radio" id="q3d" name="q3" value="30">
+        <label for="q3d">d) 30</label>
       </div>
-      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
     </div>
     <!-- Etapa 5: Pergunta 4 -->
     <div class="step">
       <div class="form-label">4) Qual a maior floresta tropical do mundo?</div>
       <div class="quiz-options">
-        <label><input type="radio" name="q4" value="Mata Atlântica" required> a) Mata Atlântica</label>
-        <label><input type="radio" name="q4" value="Pampas"> b) Pampas</label>
-        <label><input type="radio" name="q4" value="Pantanal"> c) Pantanal</label>
-        <label><input type="radio" name="q4" value="Floresta Amazônica"> d) Floresta Amazônica</label>
+        <input type="radio" id="q4a" name="q4" value="Mata Atlântica" required>
+        <label for="q4a">a) Mata Atlântica</label>
+        <input type="radio" id="q4b" name="q4" value="Pampas">
+        <label for="q4b">b) Pampas</label>
+        <input type="radio" id="q4c" name="q4" value="Pantanal">
+        <label for="q4c">c) Pantanal</label>
+        <input type="radio" id="q4d" name="q4" value="Floresta Amazônica">
+        <label for="q4d">d) Floresta Amazônica</label>
       </div>
-      <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
     </div>
     <!-- Etapa 6: Pergunta 5 -->
     <div class="step">
       <div class="form-label">5) Qual a nacionalidade de Napoleão Bonaparte?</div>
       <div class="quiz-options">
-        <label><input type="radio" name="q5" value="Francesa" required> a) Francesa</label>
-        <label><input type="radio" name="q5" value="Brasileira"> b) Brasileira</label>
-        <label><input type="radio" name="q5" value="Mexicana"> c) Mexicana</label>
-        <label><input type="radio" name="q5" value="Japonesa"> d) Japonesa</label>
+        <input type="radio" id="q5a" name="q5" value="Francesa" required>
+        <label for="q5a">a) Francesa</label>
+        <input type="radio" id="q5b" name="q5" value="Brasileira">
+        <label for="q5b">b) Brasileira</label>
+        <input type="radio" id="q5c" name="q5" value="Mexicana">
+        <label for="q5c">c) Mexicana</label>
+        <input type="radio" id="q5d" name="q5" value="Japonesa">
+        <label for="q5d">d) Japonesa</label>
       </div>
-      <button type="submit" class="form-btn" id="enviar-btn">Enviar respostas</button>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="submit" class="form-btn" id="enviar-btn">Enviar respostas</button>
+      </div>
     </div>
   </form>
 
   <div id="sending-loader" class="form-card" style="display:none;align-items:center;justify-content:center;">
-    <div style="font-size:2rem;color:#388e3c;">Enviando respostas...</div>
+    <div style="font-size:2rem;color:#1de982;">Enviando respostas...</div>
   </div>
 
   <div id="resultado" class="form-card" style="display:none; flex-direction:column; align-items:center;">
     <div class="form-title">Resultado</div>
-    <div id="mensagem-resultado" style="font-size:1.3rem; color:#388e3c; margin:18px 0;"></div>
+    <div id="mensagem-resultado" style="font-size:1.3rem; color:#1de982; margin:18px 0;"></div>
     <div id="correcao" class="correcao"></div>
+    <div id="pontuacao-geral" style="font-size:1.2rem; color:#1de982; margin:18px 0;"></div>
     <button class="form-btn" onclick="window.location.reload()">Enviar outra resposta</button>
   </div>
 
@@ -255,6 +421,12 @@
     // Wizard de etapas
     let currentStep = 0;
     const steps = document.querySelectorAll('.step');
+    const progressBar = document.getElementById('progress-bar');
+    function updateProgressBar() {
+      const total = steps.length;
+      const percent = Math.round((currentStep) / (total - 1) * 100);
+      progressBar.style.width = percent + "%";
+    }
     function nextStep() {
       // Validação dos campos obrigatórios da etapa atual
       const inputs = steps[currentStep].querySelectorAll('input, select');
@@ -274,15 +446,24 @@
       currentStep++;
       if (steps[currentStep]) {
         steps[currentStep].classList.add('active');
+        updateProgressBar();
+      }
+    }
+    function prevStep() {
+      if (currentStep > 0) {
+        steps[currentStep].classList.remove('active');
+        currentStep--;
+        steps[currentStep].classList.add('active');
+        updateProgressBar();
       }
     }
 
     function comecar() {
       document.getElementById('inicio').style.display = 'none';
       document.getElementById('quiz-form').style.display = 'flex';
-      document.getElementById('timer').style.display = 'block';
+      document.getElementById('timer-container').style.display = 'flex';
+      updateProgressBar();
       iniciarTimer();
-      // Envio automático se sair da página
       window.addEventListener('blur', autoEnviar);
     }
 
@@ -318,7 +499,7 @@
       window.removeEventListener('blur', autoEnviar);
 
       form.style.display = 'none';
-      document.getElementById('timer').style.display = 'none';
+      document.getElementById('timer-container').style.display = 'none';
       document.getElementById('sending-loader').style.display = 'flex';
 
       // Corrigir e mostrar resultado
@@ -329,11 +510,11 @@
         const resposta = marcada ? marcada.value : '';
         if (resposta === gabarito[i]) {
           acertos++;
-          correcaoHTML += `<b>${textosQuestoes[i]}</b><br><span style="color:green">✔ Correto!</span><br><br>`;
+          correcaoHTML += `<b>${textosQuestoes[i]}</b><br><span style="color:#1de982">✔ Correto!</span><br><br>`;
         } else {
           correcaoHTML += `<b>${textosQuestoes[i]}</b><br>
-            <span style="color:red">✘ Sua resposta: ${resposta || '<i>Não respondida</i>'}</span><br>
-            <span style="color:green">✔ Correto: ${gabarito[i]}</span><br><br>`;
+            <span style="color:#ff5252">✘ Sua resposta: ${resposta || '<i>Não respondida</i>'}</span><br>
+            <span style="color:#1de982">✔ Correto: ${gabarito[i]}</span><br><br>`;
         }
       }
 
@@ -351,13 +532,17 @@
         document.getElementById('mensagem-resultado').innerHTML =
           `Você acertou <b>${acertos}</b> de <b>${gabarito.length}</b> perguntas!`;
         document.getElementById('correcao').innerHTML = correcaoHTML;
+        document.getElementById('pontuacao-geral').innerHTML =
+          `<b>Pontuação final: ${acertos} / ${gabarito.length}</b>`;
       })
       .catch(() => {
         document.getElementById('sending-loader').style.display = 'none';
         document.getElementById('resultado').style.display = 'flex';
         document.getElementById('mensagem-resultado').innerHTML =
-          `<span style="color:red">Falha ao enviar para o servidor.</span>`;
+          `<span style="color:#ff5252">Falha ao enviar para o servidor.</span>`;
         document.getElementById('correcao').innerHTML = correcaoHTML;
+        document.getElementById('pontuacao-geral').innerHTML =
+          `<b>Pontuação final: ${acertos} / ${gabarito.length}</b>`;
       });
     });
   </script>
