@@ -520,16 +520,11 @@
 
       // Monta os dados do formulário
       const formData = new FormData(form);
-      const params = new URLSearchParams();
-      for (const pair of formData.entries()) {
-        params.append(pair[0], pair[1]);
-      }
 
-      // Envia para o backend intermediário no Vercel
-      fetch('https://backend-intermedi-rio.vercel.app/api/enviar', {
+      // Envia para o Apps Script
+      fetch('https://script.google.com/macros/s/AKfycby98QSShGazbsbesfqjbCRAKWpTA-aRCapgUkECZ0GqqmlsxDz9F2nQm0yKkHwHeApK/exec', {
         method: "POST",
-        body: params,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        body: formData
       })
       .then(() => {
         document.getElementById('sending-loader').style.display = 'none';
