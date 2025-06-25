@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Circuito 2025.01 - Formulário</title>
+  <style>
+    /* ... (mesmo CSS anterior) ... */
+  </style>
+</head>
+<body>
+  <form class="form-card" id="quiz-form" autocomplete="off">
+    <div class="form-title">Circuito 2025.01</div>
+    <div class="form-desc">História e Geografia<br>Responda todas as perguntas e clique em Enviar!</div>
+
+    <label class="form-label" for="nome">Nome da equipe</label>
+    <input class="form-input" type="text" id="nome" name="nome" required placeholder="Digite o nome da equipe">
+
+    <div class="form-label">1) Quanto tempo a Terra demora para dar uma volta completa em torno dela mesma?</div>
+    <div class="quiz-options">
+      <label><input type="radio" name="q1" value="Aproximadamente 24 horas" required> a) Aproximadamente 24 horas</label>
+      <label><input type="radio" name="q1" value="365 dias"> b) 365 dias</label>
+      <label><input type="radio" name="q1" value="7 dias"> c) 7 dias</label>
+      <label><input type="radio" name="q1" value="365 ou 366 dias"> d) 365 ou 366 dias</label>
+    </div>
+
+    <div class="form-label">2) Quais são as fases da Lua?</div>
+    <div class="quiz-options">
+      <label><input type="radio" name="q2" value="Nova, cheia e superlua" required> a) Nova, cheia e superlua</label>
+      <label><input type="radio" name="q2" value="Penumbral, lunar parcial, lunar total e cheia"> b) Penumbral, lunar parcial, lunar total e cheia</label>
+      <label><input type="radio" name="q2" value="Nova, cheia, minguante e lua de sangue"> c) Nova, cheia, minguante e lua de sangue</label>
+      <label><input type="radio" name="q2" value="Nova, crescente, cheia e minguante"> d) Nova, crescente, cheia e minguante</label>
+    </div>
+
+    <div class="form-label">3) Um anel tem 3 pedras preciosas. Quantas pedras preciosas têm 11 anéis?</div>
+    <div class="quiz-options">
+      <label><input type="radio" name="q3" value="33" required> a) 33</label>
+      <label><input type="radio" name="q3" value="110"> b) 110</label>
+      <label><input type="radio" name="q3" value="333"> c) 333</label>
+      <label><input type="radio" name="q3" value="30"> d) 30</label>
+    </div>
+
+    <div class="form-label">4) Qual a maior floresta tropical do mundo?</div>
+    <div class="quiz-options">
+      <label><input type="radio" name="q4" value="Mata Atlântica" required> a) Mata Atlântica</label>
+      <label><input type="radio" name="q4" value="Pampas"> b) Pampas</label>
+      <label><input type="radio" name="q4" value="Pantanal"> c) Pantanal</label>
+      <label><input type="radio" name="q4" value="Floresta Amazônica"> d) Floresta Amazônica</label>
+    </div>
+
+    <div class="form-label">5) Qual a nacionalidade de Napoleão Bonaparte?</div>
+    <div class="quiz-options">
+      <label><input type="radio" name="q5" value="Francesa" required> a) Francesa</label>
+      <label><input type="radio" name="q5" value="Brasileira"> b) Brasileira</label>
+      <label><input type="radio" name="q5" value="Mexicana"> c) Mexicana</label>
+      <label><input type="radio" name="q5" value="Japonesa"> d) Japonesa</label>
+    </div>
+
+    <button class="form-btn" type="submit" id="enviar-btn">Enviar respostas</button>
+  </form>
+
+  <div id="sending-loader" class="form-card" style="display:none;align-items:center;justify-content:center;">
+    <div style="font-size:2rem;color:#388e3c;">Enviando respostas...</div>
+  </div>
+
+  <div id="resultado" class="form-card" style="display:none; flex-direction:column; align-items:center;">
+    <div class="form-title">Obrigado!</div>
+    <div id="mensagem-resultado" style="font-size:1.3rem; color:#388e3c; margin:18px 0;"></div>
+    <button class="form-btn" onclick="window.location.reload()">Enviar outra resposta</button>
+  </div>
+
+  <script>
+    const form = document.getElementById('quiz-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      form.style.display = 'none';
+      document.getElementById('sending-loader').style.display = 'flex';
+
+      const formData = new FormData(form);
+
+      // Substitua pela URL do seu Apps Script Web App:
+      fetch('https://script.google.com/macros/s/AKfycbyCsWWKxOHwO9jiapVDbOIZfPbXVSrSptMI5e1QS6SWZVV_Y6tzzSjwePJGNpLnK101Ew/exec', {
+        method: "POST",
+        body: formData
+      })
+      .then(() => {
+        document.getElementById('sending-loader').style.display = 'none';
+        document.getElementById('resultado').style.display = 'flex';
+        document.getElementById('mensagem-resultado').innerHTML =
+          `<span style="color:green">Respostas enviadas com sucesso!</span>`;
+      })
+      .catch(() => {
+        document.getElementById('sending-loader').style.display = 'none';
+        document.getElementById('resultado').style.display = 'flex';
+        document.getElementById('mensagem-resultado').innerHTML =
+          `<span style="color:red">Falha ao enviar para o servidor.</span>`;
+      });
+    });
+  </script>
+</body>
+</html>
