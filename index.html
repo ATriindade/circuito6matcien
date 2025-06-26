@@ -182,7 +182,7 @@
     }
     .quiz-options input[type="radio"]:checked + label {
       background: #10281b;
-      border: 2.5px solid #43e97b; /* Borda verde neon mais grossa */
+      border: 2.5px solid #43e97b;
       color: #1de982;
       font-weight: bold;
       box-shadow: 0 0 24px #1de982cc, 0 0 8px #1de98299 inset, 0 0 12px #1de98299;
@@ -246,10 +246,73 @@
       }
       .form-title { font-size: 1.2rem; }
       #timer { font-size: 1.05rem; padding: 7px 8px;}
+      .form-label, .form-desc { font-size: 1rem; }
+      .quiz-options label { font-size: 0.98rem; padding: 8px 8px; }
+      .botoes-etapa { flex-direction: column; gap: 6px; }
+      .form-btn, .btn-voltar { font-size: 1rem; padding: 12px 0; }
+      #mensagem-resultado { font-size: 1.05rem; }
+      .correcao { font-size: 0.97rem; padding: 8px 6px; }
+      #carrossel-correcao { flex-direction: column; gap: 8px; }
+    }
+    /* Impede seleção de texto em todo o corpo e elementos principais */
+    body, .form-card, .quiz-options label, .form-label, .form-title, .form-desc {
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+    .loader {
+      border: 6px solid #1de98244;
+      border-top: 6px solid #1de982;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+    .correcao-seta {
+      background: #1de982;
+      color: #10281b;
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 8px #1de98255;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+      margin: 0 4px;
+    }
+    .correcao-seta:hover {
+      background: #43e97b;
+      transform: scale(1.12);
+    }
+    @media (max-width: 600px) {
+      .correcao-seta {
+        width: 32px;
+        height: 32px;
+        font-size: 1.15rem;
+      }
     }
   </style>
 </head>
 <body>
+  <div id="page-loader" style="position:fixed;z-index:99999;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#0b1a13;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:18px;">
+      <div class="loader"></div>
+      <div style="color:#1de982;font-size:1.3rem;font-weight:bold;">Carregando...</div>
+    </div>
+  </div>
+
+  <div style="position:fixed;top:0;left:0;width:100vw;background:#1de982;color:#10281b;font-weight:bold;text-align:center;padding:8px 0;z-index:9999;box-shadow:0 2px 8px #1de98255;">
+    ⚠️ Não saia da página ou troque de aba! Isso encerrará sua avaliação.
+  </div>
   <div class="form-card" id="inicio">
     <div style="display:flex;justify-content:center;">
       <span style="font-size:3.2rem; color:#1de982; filter:drop-shadow(0 0 8px #1de98288); margin-bottom:10px;">🎮</span>
@@ -263,7 +326,7 @@
     <div style="background:#0e1c14;border-radius:12px;padding:14px 18px;margin-bottom:18px;border:1.5px solid #1de982;">
       <ul class="regras" style="margin:0;">
         <li>Não saia da página durante o quiz.</li>
-        <li>Tempo limitado: <b>10 minutos</b>.</li>
+        <li>Tempo limitado: <b>120 minutos</b>.</li>
         <li>Fale com um professor em caso de dúvida.</li>
       </ul>
     </div>
@@ -276,7 +339,7 @@
     </div>
     <div id="timer-container">
       <div id="timer">
-        ⏱ <span id="timer-count">10:00</span>
+        ⏱ <span id="timer-count">120:00</span>
       </div>
     </div>
     <div class="form-title">Circuito 2025.01</div>
@@ -290,133 +353,637 @@
         <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
       </div>
     </div>
-    <!-- Etapa 2: Pergunta 1 -->
+
+    <!-- GEOGRAFIA -->
     <div class="step">
-      <div class="form-label">1) Quanto tempo a Terra demora para dar uma volta completa em torno dela mesma?</div>
+      <div class="form-label">1) Tudo aquilo que nossa visão alcança, incluindo elementos naturais, culturais, sons, movimentos e cores é chamado de:</div>
       <div class="quiz-options">
-        <input type="radio" id="q1a" name="q1" value="Aproximadamente 24 horas" required>
-        <label for="q1a">a) Aproximadamente 24 horas</label>
-        <input type="radio" id="q1b" name="q1" value="365 dias">
-        <label for="q1b">b) 365 dias</label>
-        <input type="radio" id="q1c" name="q1" value="7 dias">
-        <label for="q1c">c) 7 dias</label>
-        <input type="radio" id="q1d" name="q1" value="365 ou 366 dias">
-        <label for="q1d">d) 365 ou 366 dias</label>
+        <input type="radio" id="q1a" name="q1" value="Espaço geográfico" required>
+        <label for="q1a">a) Espaço geográfico</label>
+        <input type="radio" id="q1b" name="q1" value="Lugar">
+        <label for="q1b">b) Lugar</label>
+        <input type="radio" id="q1c" name="q1" value="Paisagem">
+        <label for="q1c">c) Paisagem</label>
+        <input type="radio" id="q1d" name="q1" value="Território">
+        <label for="q1d">d) Território</label>
       </div>
       <div class="botoes-etapa">
         <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
         <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
       </div>
     </div>
-    <!-- Etapa 3: Pergunta 2 -->
     <div class="step">
-      <div class="form-label">2) Quais são as fases da Lua?</div>
+      <div class="form-label">2) Qual das seguintes opções melhor define o conceito de "lugar" na Geografia?</div>
       <div class="quiz-options">
-        <input type="radio" id="q2a" name="q2" value="Nova, cheia e superlua" required>
-        <label for="q2a">a) Nova, cheia e superlua</label>
-        <input type="radio" id="q2b" name="q2" value="Penumbral, lunar parcial, lunar total e cheia">
-        <label for="q2b">b) Penumbral, lunar parcial, lunar total e cheia</label>
-        <input type="radio" id="q2c" name="q2" value="Nova, cheia, minguante e lua de sangue">
-        <label for="q2c">c) Nova, cheia, minguante e lua de sangue</label>
-        <input type="radio" id="q2d" name="q2" value="Nova, crescente, cheia e minguante">
-        <label for="q2d">d) Nova, crescente, cheia e minguante</label>
+        <input type="radio" id="q2a" name="q2" value="A totalidade do espaço terrestre" required>
+        <label for="q2a">a) A totalidade do espaço terrestre</label>
+        <input type="radio" id="q2b" name="q2" value="Uma área delimitada por fronteiras políticas">
+        <label for="q2b">b) Uma área delimitada por fronteiras políticas</label>
+        <input type="radio" id="q2c" name="q2" value="A menor porção do espaço geográfico com significado pessoal e afetivo">
+        <label for="q2c">c) A menor porção do espaço geográfico com significado pessoal e afetivo</label>
+        <input type="radio" id="q2d" name="q2" value="Um conjunto de características físicas de uma região">
+        <label for="q2d">d) Um conjunto de características físicas de uma região</label>
       </div>
       <div class="botoes-etapa">
         <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
         <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
       </div>
     </div>
-    <!-- Etapa 4: Pergunta 3 -->
     <div class="step">
-      <div class="form-label">3) Um anel tem 3 pedras preciosas. Quantas pedras preciosas têm 11 anéis?</div>
+      <div class="form-label">3) Espaço geográfico...</div>
       <div class="quiz-options">
-        <input type="radio" id="q3a" name="q3" value="33" required>
-        <label for="q3a">a) 33</label>
-        <input type="radio" id="q3b" name="q3" value="110">
-        <label for="q3b">b) 110</label>
-        <input type="radio" id="q3c" name="q3" value="333">
-        <label for="q3c">c) 333</label>
-        <input type="radio" id="q3d" name="q3" value="30">
-        <label for="q3d">d) 30</label>
+        <input type="radio" id="q3a" name="q3" value="É imutável ao longo do tempo" required>
+        <label for="q3a">a) É imutável ao longo do tempo</label>
+        <input type="radio" id="q3b" name="q3" value="É produzido apenas pela natureza">
+        <label for="q3b">b) É produzido apenas pela natureza</label>
+        <input type="radio" id="q3c" name="q3" value="É construído exclusivamente pelo trabalho humano">
+        <label for="q3c">c) É construído exclusivamente pelo trabalho humano</label>
+        <input type="radio" id="q3d" name="q3" value="É resultado da interação entre o trabalho humano e a natureza">
+        <label for="q3d">d) É resultado da interação entre o trabalho humano e a natureza</label>
       </div>
       <div class="botoes-etapa">
         <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
         <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
       </div>
     </div>
-    <!-- Etapa 5: Pergunta 4 -->
     <div class="step">
-      <div class="form-label">4) Qual a maior floresta tropical do mundo?</div>
+      <div class="form-label">4) O que se entende por espaço de vivência na Geografia?</div>
       <div class="quiz-options">
-        <input type="radio" id="q4a" name="q4" value="Mata Atlântica" required>
-        <label for="q4a">a) Mata Atlântica</label>
-        <input type="radio" id="q4b" name="q4" value="Pampas">
-        <label for="q4b">b) Pampas</label>
-        <input type="radio" id="q4c" name="q4" value="Pantanal">
-        <label for="q4c">c) Pantanal</label>
-        <input type="radio" id="q4d" name="q4" value="Floresta Amazônica">
-        <label for="q4d">d) Floresta Amazônica</label>
+        <input type="radio" id="q4a" name="q4" value="Apenas o local de trabalho" required>
+        <label for="q4a">a) Apenas o local de trabalho</label>
+        <input type="radio" id="q4b" name="q4" value="Somente a residência de uma pessoa">
+        <label for="q4b">b) Somente a residência de uma pessoa</label>
+        <input type="radio" id="q4c" name="q4" value="O conjunto de lugares onde um indivíduo mora e estabelece relações">
+        <label for="q4c">c) O conjunto de lugares onde um indivíduo mora e estabelece relações</label>
+        <input type="radio" id="q4d" name="q4" value="As áreas de lazer de uma cidade">
+        <label for="q4d">d) As áreas de lazer de uma cidade</label>
       </div>
       <div class="botoes-etapa">
         <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
         <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
       </div>
     </div>
-    <!-- Etapa 6: Pergunta 5 -->
     <div class="step">
-      <div class="form-label">5) Qual a nacionalidade de Napoleão Bonaparte?</div>
+      <div class="form-label">5) Qual ciência ou arte é responsável pela elaboração de mapas e representações do espaço geográfico?</div>
       <div class="quiz-options">
-        <input type="radio" id="q5a" name="q5" value="Francesa" required>
-        <label for="q5a">a) Francesa</label>
-        <input type="radio" id="q5b" name="q5" value="Brasileira">
-        <label for="q5b">b) Brasileira</label>
-        <input type="radio" id="q5c" name="q5" value="Mexicana">
-        <label for="q5c">c) Mexicana</label>
-        <input type="radio" id="q5d" name="q5" value="Japonesa">
-        <label for="q5d">d) Japonesa</label>
+        <input type="radio" id="q5a" name="q5" value="Topografia" required>
+        <label for="q5a">a) Topografia</label>
+        <input type="radio" id="q5b" name="q5" value="Cartografia">
+        <label for="q5b">b) Cartografia</label>
+        <input type="radio" id="q5c" name="q5" value="Geodésia">
+        <label for="q5c">c) Geodésia</label>
+        <input type="radio" id="q5d" name="q5" value="Fotogrametria">
+        <label for="q5d">d) Fotogrametria</label>
       </div>
       <div class="botoes-etapa">
         <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
-        <button type="submit" class="form-btn" id="enviar-btn">Enviar respostas</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">6) Qual avanço tecnológico é considerado fundamental no processo de análise e representação do espaço geográfico na Cartografia moderna?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q6a" name="q6" value="Bússola" required>
+        <label for="q6a">a) Bússola</label>
+        <input type="radio" id="q6b" name="q6" value="Astrolábio">
+        <label for="q6b">b) Astrolábio</label>
+        <input type="radio" id="q6c" name="q6" value="Geoprocessamento">
+        <label for="q6c">c) Geoprocessamento</label>
+        <input type="radio" id="q6d" name="q6" value="Sextante">
+        <label for="q6d">d) Sextante</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">7) Qual evento histórico marcou o ressurgimento da Cartografia como meio de garantir a segurança dos viajantes?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q7a" name="q7" value="Revolução Francesa" required>
+        <label for="q7a">a) Revolução Francesa</label>
+        <input type="radio" id="q7b" name="q7" value="Guerras Napoleônicas">
+        <label for="q7b">b) Guerras Napoleônicas</label>
+        <input type="radio" id="q7c" name="q7" value="Grandes Navegações">
+        <label for="q7c">c) Grandes Navegações</label>
+        <input type="radio" id="q7d" name="q7" value="Revolução Industrial">
+        <label for="q7d">d) Revolução Industrial</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">8) Qual civilização antiga foi responsável pelo cálculo da circunferência da Terra?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q8a" name="q8" value="Romana" required>
+        <label for="q8a">a) Romana</label>
+        <input type="radio" id="q8b" name="q8" value="Egípcia">
+        <label for="q8b">b) Egípcia</label>
+        <input type="radio" id="q8c" name="q8" value="Grega">
+        <label for="q8c">c) Grega</label>
+        <input type="radio" id="q8d" name="q8" value="Persa">
+        <label for="q8d">d) Persa</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">9) Qual período histórico é conhecido como uma época de estagnação no desenvolvimento da Cartografia?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q9a" name="q9" value="Renascimento" required>
+        <label for="q9a">a) Renascimento</label>
+        <input type="radio" id="q9b" name="q9" value="Idade Média">
+        <label for="q9b">b) Idade Média</label>
+        <input type="radio" id="q9c" name="q9" value="Iluminismo">
+        <label for="q9c">c) Iluminismo</label>
+        <input type="radio" id="q9d" name="q9" value="Revolução Industrial">
+        <label for="q9d">d) Revolução Industrial</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">10) Qual cartógrafo é conhecido por desenvolver o sistema de projeção cilíndrica?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q10a" name="q10" value="Erastótenes" required>
+        <label for="q10a">a) Erastótenes</label>
+        <input type="radio" id="q10b" name="q10" value="Ptolomeu">
+        <label for="q10b">b) Ptolomeu</label>
+        <input type="radio" id="q10c" name="q10" value="Ortelius">
+        <label for="q10c">c) Ortelius</label>
+        <input type="radio" id="q10d" name="q10" value="Mercator">
+        <label for="q10d">d) Mercator</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">11) Quantas fases principais a Lua apresenta?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q11a" name="q11" value="Duas" required>
+        <label for="q11a">a) Duas</label>
+        <input type="radio" id="q11b" name="q11" value="Três">
+        <label for="q11b">b) Três</label>
+        <input type="radio" id="q11c" name="q11" value="Quatro">
+        <label for="q11c">c) Quatro</label>
+        <input type="radio" id="q11d" name="q11" value="Cinco">
+        <label for="q11d">d) Cinco</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">12) Qual corpo celeste foi reclassificado como planeta anão em 2006?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q12a" name="q12" value="Mercúrio" required>
+        <label for="q12a">a) Mercúrio</label>
+        <input type="radio" id="q12b" name="q12" value="Vênus">
+        <label for="q12b">b) Vênus</label>
+        <input type="radio" id="q12c" name="q12" value="Marte">
+        <label for="q12c">c) Marte</label>
+        <input type="radio" id="q12d" name="q12" value="Plutão">
+        <label for="q12d">d) Plutão</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">13) Qual é a principal função do Sol para a vida na Terra?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q13a" name="q13" value="Controlar as estações do ano" required>
+        <label for="q13a">a) Controlar as estações do ano</label>
+        <input type="radio" id="q13b" name="q13" value="Regular o campo magnético terrestre">
+        <label for="q13b">b) Regular o campo magnético terrestre</label>
+        <input type="radio" id="q13c" name="q13" value="Fornecer calor e energia">
+        <label for="q13c">c) Fornecer calor e energia</label>
+        <input type="radio" id="q13d" name="q13" value="Manter a órbita da Terra estável">
+        <label for="q13d">d) Manter a órbita da Terra estável</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">14) Qual é o principal satélite natural da Terra?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q14a" name="q14" value="Fobos" required>
+        <label for="q14a">a) Fobos</label>
+        <input type="radio" id="q14b" name="q14" value="Europa">
+        <label for="q14b">b) Europa</label>
+        <input type="radio" id="q14c" name="q14" value="Lua">
+        <label for="q14c">c) Lua</label>
+        <input type="radio" id="q14d" name="q14" value="Titã">
+        <label for="q14d">d) Titã</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">15) Qual é o nome da galáxia onde o Sistema Solar está localizado?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q15a" name="q15" value="Andrômeda" required>
+        <label for="q15a">a) Andrômeda</label>
+        <input type="radio" id="q15b" name="q15" value="Via Láctea">
+        <label for="q15b">b) Via Láctea</label>
+        <input type="radio" id="q15c" name="q15" value="Centaurus A">
+        <label for="q15c">c) Centaurus A</label>
+        <input type="radio" id="q15d" name="q15" value="Triângulo">
+        <label for="q15d">d) Triângulo</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+
+    <!-- HISTÓRIA -->
+    <div class="step">
+      <div class="form-label">16) Qual é o significado original da palavra "história" em grego?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q16a" name="q16" value="Narrar" required>
+        <label for="q16a">a) Narrar</label>
+        <input type="radio" id="q16b" name="q16" value="Registrar">
+        <label for="q16b">b) Registrar</label>
+        <input type="radio" id="q16c" name="q16" value="Observar">
+        <label for="q16c">c) Observar</label>
+        <input type="radio" id="q16d" name="q16" value="Analisa">
+        <label for="q16d">d) Analisa</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">17) Há quanto tempo, aproximadamente, existem pessoas interessadas em investigar eventos históricos?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q17a" name="q17" value="500 anos" required>
+        <label for="q17a">a) 500 anos</label>
+        <input type="radio" id="q17b" name="q17" value="1000 anos">
+        <label for="q17b">b) 1000 anos</label>
+        <input type="radio" id="q17c" name="q17" value="1500 anos">
+        <label for="q17c">c) 1500 anos</label>
+        <input type="radio" id="q17d" name="q17" value="2500 anos">
+        <label for="q17d">d) 2500 anos</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">18) Em qual grupo de ciências a História se encontra?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q18a" name="q18" value="Ciências Exatas" required>
+        <label for="q18a">a) Ciências Exatas</label>
+        <input type="radio" id="q18b" name="q18" value="Ciências Biológicas">
+        <label for="q18b">b) Ciências Biológicas</label>
+        <input type="radio" id="q18c" name="q18" value="Ciências Naturais">
+        <label for="q18c">c) Ciências Naturais</label>
+        <input type="radio" id="q18d" name="q18" value="Ciências Humanas">
+        <label for="q18d">d) Ciências Humanas</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">19) Qual é a importância do estudo da História para a formação cidadã?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q19a" name="q19" value="É irrelevante para a formação cidadã" required>
+        <label for="q19a">a) É irrelevante para a formação cidadã</label>
+        <input type="radio" id="q19b" name="q19" value="Serve apenas para memorizar datas e eventos">
+        <label for="q19b">b) Serve apenas para memorizar datas e eventos</label>
+        <input type="radio" id="q19c" name="q19" value="É essencial para a formação cidadã">
+        <label for="q19c">c) É essencial para a formação cidadã</label>
+        <input type="radio" id="q19d" name="q19" value="É útil somente para quem deseja ser historiador">
+        <label for="q19d">d) É útil somente para quem deseja ser historiador</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">20) O que motivou o desenvolvimento dos primeiros sistemas de escrita?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q20a" name="q20" value="Registro de lendas e mitos" required>
+        <label for="q20a">a) Registro de lendas e mitos</label>
+        <input type="radio" id="q20b" name="q20" value="Comunicação entre aldeias distantes">
+        <label for="q20b">b) Comunicação entre aldeias distantes</label>
+        <input type="radio" id="q20c" name="q20" value="Anotação de transações comerciais">
+        <label for="q20c">c) Anotação de transações comerciais</label>
+        <input type="radio" id="q20d" name="q20" value="Criação de códigos secretos">
+        <label for="q20d">d) Criação de códigos secretos</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">21) Qual foi uma das principais consequências do desenvolvimento da agricultura para a organização social humana?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q21a" name="q21" value="Aumento do nomadismo" required>
+        <label for="q21a">a) Aumento do nomadismo</label>
+        <input type="radio" id="q21b" name="q21" value="Redução da expectativa de vida">
+        <label for="q21b">b) Redução da expectativa de vida</label>
+        <input type="radio" id="q21c" name="q21" value="Diminuição da população">
+        <label for="q21c">c) Diminuição da população</label>
+        <input type="radio" id="q21d" name="q21" value="Formação dos primeiros núcleos urbanos">
+        <label for="q21d">d) Formação dos primeiros núcleos urbanos</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">22) Qual era a principal forma de organização social dos grupos caçadores-coletores?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q22a" name="q22" value="Estados centralizados" required>
+        <label for="q22a">a) Estados centralizados</label>
+        <input type="radio" id="q22b" name="q22" value="Cidades-estado">
+        <label for="q22b">b) Cidades-estado</label>
+        <input type="radio" id="q22c" name="q22" value="Pequenos grupos ou bandos">
+        <label for="q22c">c) Pequenos grupos ou bandos</label>
+        <input type="radio" id="q22d" name="q22" value="Impérios">
+        <label for="q22d">d) Impérios</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">23) Qual era o principal material utilizado para a fabricação de ferramentas pelos caçadores-coletores do Paleolítico?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q23a" name="q23" value="Bronze" required>
+        <label for="q23a">a) Bronze</label>
+        <input type="radio" id="q23b" name="q23" value="Ferro">
+        <label for="q23b">b) Ferro</label>
+        <input type="radio" id="q23c" name="q23" value="Pedra">
+        <label for="q23c">c) Pedra</label>
+        <input type="radio" id="q23d" name="q23" value="Cobre">
+        <label for="q23d">d) Cobre</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">24) Qual característica melhor define o modo de vida dos caçadores-coletores?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q24a" name="q24" value="Sedentarismo" required>
+        <label for="q24a">a) Sedentarismo</label>
+        <input type="radio" id="q24b" name="q24" value="Nomadismo">
+        <label for="q24b">b) Nomadismo</label>
+        <input type="radio" id="q24c" name="q24" value="Agricultura intensiva">
+        <label for="q24c">c) Agricultura intensiva</label>
+        <input type="radio" id="q24d" name="q24" value="Criação de animais">
+        <label for="q24d">d) Criação de animais</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">25) Quais eram as principais atividades de subsistência praticadas pelos povos caçadores-coletores?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q25a" name="q25" value="Agricultura e pecuária" required>
+        <label for="q25a">a) Agricultura e pecuária</label>
+        <input type="radio" id="q25b" name="q25" value="Caça, pesca e coleta de vegetais">
+        <label for="q25b">b) Caça, pesca e coleta de vegetais</label>
+        <input type="radio" id="q25c" name="q25" value="Metalurgia e cerâmica">
+        <label for="q25c">c) Metalurgia e cerâmica</label>
+        <input type="radio" id="q25d" name="q25" value="Tecelagem e olaria">
+        <label for="q25d">d) Tecelagem e olaria</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">26) Qual característica geográfica foi fundamental para o desenvolvimento das civilizações mesopotâmica e egípcia?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q26a" name="q26" value="Grandes florestas" required>
+        <label for="q26a">a) Grandes florestas</label>
+        <input type="radio" id="q26b" name="q26" value="Montanhas elevadas">
+        <label for="q26b">b) Montanhas elevadas</label>
+        <input type="radio" id="q26c" name="q26" value="Rios importantes">
+        <label for="q26c">c) Rios importantes</label>
+        <input type="radio" id="q26d" name="q26" value="Extensos desertos">
+        <label for="q26d">d) Extensos desertos</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">27) Qual foi uma das principais contribuições da civilização mesopotâmica para a humanidade?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q27a" name="q27" value="Pirâmides" required>
+        <label for="q27a">a) Pirâmides</label>
+        <input type="radio" id="q27b" name="q27" value="Escrita cuneiforme">
+        <label for="q27b">b) Escrita cuneiforme</label>
+        <input type="radio" id="q27c" name="q27" value="Mumificação">
+        <label for="q27c">c) Mumificação</label>
+        <input type="radio" id="q27d" name="q27" value="Alfabeto fenício">
+        <label for="q27d">d) Alfabeto fenício</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">28) Qual era o principal material de escrita utilizado no Antigo Egito?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q28a" name="q28" value="Argila" required>
+        <label for="q28a">a) Argila</label>
+        <input type="radio" id="q28b" name="q28" value="Papiro">
+        <label for="q28b">b) Papiro</label>
+        <input type="radio" id="q28c" name="q28" value="Pergaminho">
+        <label for="q28c">c) Pergaminho</label>
+        <input type="radio" id="q28d" name="q28" value="Papel">
+        <label for="q28d">d) Papel</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">29) Qual estrutura arquitetônica é mais associada ao Antigo Egito?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q29a" name="q29" value="Zigurate" required>
+        <label for="q29a">a) Zigurate</label>
+        <input type="radio" id="q29b" name="q29" value="Pirâmide">
+        <label for="q29b">b) Pirâmide</label>
+        <input type="radio" id="q29c" name="q29" value="Acrópole">
+        <label for="q29c">c) Acrópole</label>
+        <input type="radio" id="q29d" name="q29" value="Coliseu">
+        <label for="q29d">d) Coliseu</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">30) Qual termo é usado para descrever a região fértil que inclui a Mesopotâmia?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q30a" name="q30" value="Vale do Nilo" required>
+        <label for="q30a">a) Vale do Nilo</label>
+        <input type="radio" id="q30b" name="q30" value="Crescente Fértil">
+        <label for="q30b">b) Crescente Fértil</label>
+        <input type="radio" id="q30c" name="q30" value="Planície Aluvial">
+        <label for="q30c">c) Planície Aluvial</label>
+        <input type="radio" id="q30d" name="q30" value="Zona Temperada">
+        <label for="q30d">d) Zona Temperada</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="submit" class="form-btn" id="enviar-btn">Enviar</button>
       </div>
     </div>
   </form>
 
-  <div id="sending-loader" class="form-card" style="display:none;align-items:center;justify-content:center;">
-    <div style="font-size:2rem;color:#1de982;">Enviando respostas...</div>
+  <div id="sending-loader" class="form-card" style="display:none;align-items:center;justify-content:center;min-height:220px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:18px;">
+      <div class="loader"></div>
+      <div style="font-size:2rem;color:#1de982;font-weight:bold;text-shadow:0 2px 8px #1de98255;">Enviando respostas...</div>
+      <div style="color:#b2dfdb;font-size:1.1rem;">Por favor, aguarde.</div>
+    </div>
   </div>
 
   <div id="resultado" class="form-card" style="display:none; flex-direction:column; align-items:center;">
     <div class="form-title">Resultado</div>
     <div id="mensagem-resultado" style="font-size:1.3rem; color:#1de982; margin:18px 0;"></div>
-    <div id="correcao" class="correcao"></div>
+    <details id="spoiler-correcao" style="width:100%;margin-top:18px;">
+      <summary style="cursor:pointer;font-size:1.1rem;color:#1de982;">Clique para ver a correção das questões</summary>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+        <button id="prev-correcao" class="correcao-seta" style="display:none;" aria-label="Anterior">&lt;</button>
+        <div id="correcao" class="correcao"></div>
+        <button id="next-correcao" class="correcao-seta" style="display:none;" aria-label="Próximo">&gt;</button>
+      </div>
+    </details>
     <div id="pontuacao-geral" style="font-size:1.2rem; color:#1de982; margin:18px 0;"></div>
-    <button class="form-btn" onclick="window.location.reload()">Enviar outra resposta</button>
+  </div>
+
+  <div class="form-card" id="aviso-transicao" style="display:none;align-items:center;justify-content:center;">
+    <div id="texto-transicao" style="font-size:1.25rem;color:#1de982;text-align:center;">
+      <!-- O texto será preenchido via JS -->
+    </div>
+    <button class="form-btn" style="margin-top:18px;" onclick="continuarTransicao()">Continuar</button>
   </div>
 
   <script>
     // Gabarito para correção
     const gabarito = [
-      "Aproximadamente 24 horas", // q1
-      "Nova, crescente, cheia e minguante", // q2
-      "33", // q3
-      "Floresta Amazônica", // q4
-      "Francesa" // q5
-    ];
-    const nomesQuestoes = [
-      "q1", "q2", "q3", "q4", "q5"
-    ];
-    const textosQuestoes = [
-      "1) Quanto tempo a Terra demora para dar uma volta completa em torno dela mesma?",
-      "2) Quais são as fases da Lua?",
-      "3) Um anel tem 3 pedras preciosas. Quantas pedras preciosas têm 11 anéis?",
-      "4) Qual a maior floresta tropical do mundo?",
-      "5) Qual a nacionalidade de Napoleão Bonaparte?"
+      // Geografia
+      "Paisagem", // q1
+      "A menor porção do espaço geográfico com significado pessoal e afetivo", // q2
+      "É resultado da interação entre o trabalho humano e a natureza", // q3
+      "O conjunto de lugares onde um indivíduo mora e estabelece relações", // q4
+      "Cartografia", // q5
+      "Geoprocessamento", // q6
+      "Grandes Navegações", // q7
+      "Grega", // q8
+      "Idade Média", // q9
+      "Mercator", // q10
+      "Quatro", // q11
+      "Plutão", // q12
+      "Fornecer calor e energia", // q13
+      "Lua", // q14
+      "Via Láctea", // q15
+      // História
+      "Observar", // q16
+      "2500 anos", // q17
+      "Ciências Humanas", // q18
+      "É essencial para a formação cidadã", // q19
+      "Anotação de transações comerciais", // q20
+      "Formação dos primeiros núcleos urbanos", // q21
+      "Pequenos grupos ou bandos", // q22
+      "Pedra", // q23
+      "Nomadismo", // q24
+      "Caça, pesca e coleta de vegetais", // q25
+      "Rios importantes", // q26
+      "Escrita cuneiforme", // q27
+      "Papiro", // q28
+      "Pirâmide", // q29
+      "Crescente Fértil" // q30
     ];
 
-    let tempo = 600; // 10 minutos
+    const nomesQuestoes = [
+      // Geografia
+      "q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15",
+      // História
+      "q16","q17","q18","q19","q20","q21","q22","q23","q24","q25","q26","q27","q28","q29","q30"
+    ];
+
+    const textosQuestoes = [
+      // Geografia
+      "1) Tudo aquilo que nossa visão alcança, incluindo elementos naturais, culturais, sons, movimentos e cores é chamado de:",
+      "2) Qual das seguintes opções melhor define o conceito de \"lugar\" na Geografia?",
+      "3) Espaço geográfico...",
+      "4) O que se entende por espaço de vivência na Geografia?",
+      "5) Qual ciência ou arte é responsável pela elaboração de mapas e representações do espaço geográfico?",
+      "6) Qual avanço tecnológico é considerado fundamental no processo de análise e representação do espaço geográfico na Cartografia moderna?",
+      "7) Qual evento histórico marcou o ressurgimento da Cartografia como meio de garantir a segurança dos viajantes?",
+      "8) Qual civilização antiga foi responsável pelo cálculo da circunferência da Terra?",
+      "9) Qual período histórico é conhecido como uma época de estagnação no desenvolvimento da Cartografia?",
+      "10) Qual cartógrafo é conhecido por desenvolver o sistema de projeção cilíndrica?",
+      "11) Quantas fases principais a Lua apresenta?",
+      "12) Qual corpo celeste foi reclassificado como planeta anão em 2006?",
+      "13) Qual é a principal função do Sol para a vida na Terra?",
+      "14) Qual é o principal satélite natural da Terra?",
+      "15) Qual é o nome da galáxia onde o Sistema Solar está localizado?",
+      // História
+      "16) Qual é o significado original da palavra \"história\" em grego?",
+      "17) Há quanto tempo, aproximadamente, existem pessoas interessadas em investigar eventos históricos?",
+      "18) Em qual grupo de ciências a História se encontra?",
+      "19) Qual é a importância do estudo da História para a formação cidadã?",
+      "20) O que motivou o desenvolvimento dos primeiros sistemas de escrita?",
+      "21) Qual foi uma das principais consequências do desenvolvimento da agricultura para a organização social humana?",
+      "22) Qual era a principal forma de organização social dos grupos caçadores-coletores?",
+      "23) Qual era o principal material utilizado para a fabricação de ferramentas pelos caçadores-coletores do Paleolítico?",
+      "24) Qual característica melhor define o modo de vida dos caçadores-coletores?",
+      "25) Quais eram as principais atividades de subsistência praticadas pelos povos caçadores-coletores?",
+      "26) Qual característica geográfica foi fundamental para o desenvolvimento das civilizações mesopotâmica e egípcia?",
+      "27) Qual foi uma das principais contribuições da civilização mesopotâmica para a humanidade?",
+      "28) Qual era o principal material de escrita utilizado no Antigo Egito?",
+      "29) Qual estrutura arquitetônica é mais associada ao Antigo Egito?",
+      "30) Qual termo é usado para descrever a região fértil que inclui a Mesopotâmia?"
+    ];
+
+    let tempo = 7200; // 2 horas
     let timerInterval;
     let enviado = false;
+
+    // Variáveis globais para correção/carrossel
+    let correcaoPaginas = [];
+    let paginaAtual = 0;
 
     // Wizard de etapas
     let currentStep = 0;
@@ -444,6 +1011,28 @@
       }
       steps[currentStep].classList.remove('active');
       currentStep++;
+      // Aviso após o nome da equipe (etapa 1, índice 1)
+      if (currentStep === 1) {
+        mostrarTransicao(`
+          <span style="font-size:2.2rem;display:block;margin-bottom:10px;">🌎🧭</span>
+          <b>Agora começam as 15 perguntas de Geografia!</b>
+          <br><br>
+          Responda com atenção.<br>
+          Boa sorte! 🍀
+        `);
+        return;
+      }
+      // Aviso ao chegar na questão 16 (índice 16)
+      if (currentStep === 16) {
+        mostrarTransicao(`
+          <span style="font-size:2.2rem;display:block;margin-bottom:10px;">📜🏛️</span>
+          <b>Agora começam as 15 perguntas de História!</b>
+          <br><br>
+          Continue focado.<br>
+          Você está indo muito bem! 🚀
+        `);
+        return;
+      }
       if (steps[currentStep]) {
         steps[currentStep].classList.add('active');
         updateProgressBar();
@@ -504,46 +1093,130 @@
 
       // Corrigir e mostrar resultado
       let acertos = 0;
-      let correcaoHTML = '';
-      for (let i = 0; i < gabarito.length; i++) {
-        const marcada = form.querySelector(`input[name="${nomesQuestoes[i]}"]:checked`);
-        const resposta = marcada ? marcada.value : '';
-        if (resposta === gabarito[i]) {
-          acertos++;
-          correcaoHTML += `<b>${textosQuestoes[i]}</b><br><span style="color:#1de982">✔ Correto!</span><br><br>`;
-        } else {
-          correcaoHTML += `<b>${textosQuestoes[i]}</b><br>
-            <span style="color:#ff5252">✘ Sua resposta: ${resposta || '<i>Não respondida</i>'}</span><br>
-            <span style="color:#1de982">✔ Correto: ${gabarito[i]}</span><br><br>`;
+      correcaoPaginas = [];
+      paginaAtual = 0;
+      for (let i = 0; i < gabarito.length; i += 5) {
+        let bloco = '';
+        for (let j = i; j < i + 5 && j < gabarito.length; j++) {
+          const marcada = form.querySelector(`input[name="${nomesQuestoes[j]}"]:checked`);
+          const resposta = marcada ? marcada.value : '';
+          if (resposta === gabarito[j]) {
+            bloco += `<b>${textosQuestoes[j]}</b><br><span style="color:#1de982">✔ Correto!</span><br><br>`;
+            acertos++;
+          } else {
+            bloco += `<b>${textosQuestoes[j]}</b><br>
+              <span style="color:#ff5252">✘ Sua resposta: ${resposta || '<i>Não respondida</i>'}</span><br>
+              <span style="color:#1de982">✔ Correto: ${gabarito[j]}</span><br><br>`;
+          }
         }
+        correcaoPaginas.push(bloco);
       }
 
       // Monta os dados do formulário
       const formData = new FormData(form);
 
       // Envia para o Apps Script
-      fetch('https://script.google.com/macros/s/AKfycby98QSShGazbsbesfqjbCRAKWpTA-aRCapgUkECZ0GqqmlsxDz9F2nQm0yKkHwHeApK/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbyAVK-bf_qAv8iJBWqa7kZmrnC68xc9c6RTQZg3GLbwaXKKcBtmf3wBbB9SCkys_TSe/exec', {
         method: "POST",
         body: formData
       })
-      .then(() => {
+      .finally(() => {
         document.getElementById('sending-loader').style.display = 'none';
         document.getElementById('resultado').style.display = 'flex';
         document.getElementById('mensagem-resultado').innerHTML =
-          `Você acertou <b>${acertos}</b> de <b>${gabarito.length}</b> perguntas!`;
-        document.getElementById('correcao').innerHTML = correcaoHTML;
+          `Você acertou <b>${acertos}</b> de <b>${gabarito.length}</b> perguntas!<br><span style="color:#1de982">Respostas enviadas com sucesso!</span>`;
+        mostrarPaginaCorrecao(0); // Mostra a primeira página da correção
         document.getElementById('pontuacao-geral').innerHTML =
-          `<b>Pontuação final: ${acertos} / ${gabarito.length}</b>`;
-      })
-      .catch(() => {
-        document.getElementById('sending-loader').style.display = 'none';
-        document.getElementById('resultado').style.display = 'flex';
-        document.getElementById('mensagem-resultado').innerHTML =
-          `<span style="color:#ff5252">Falha ao enviar para o servidor.</span>`;
-        document.getElementById('correcao').innerHTML = correcaoHTML;
-        document.getElementById('pontuacao-geral').innerHTML =
-          `<b>Pontuação final: ${acertos} / ${gabarito.length}</b>`;
+          `<b>Respondeu: ${acertos} de ${gabarito.length} perguntas</b>`;
       });
+    });
+
+    function mostrarPaginaCorrecao(idx) {
+      document.getElementById('correcao').innerHTML = correcaoPaginas[idx];
+      document.getElementById('prev-correcao').style.display = idx > 0 ? '' : 'none';
+      document.getElementById('next-correcao').style.display = idx < correcaoPaginas.length - 1 ? '' : 'none';
+    }
+    document.getElementById('prev-correcao').onclick = () => {
+      if (paginaAtual > 0) {
+        paginaAtual--;
+        mostrarPaginaCorrecao(paginaAtual);
+      }
+    };
+    document.getElementById('next-correcao').onclick = () => {
+      if (paginaAtual < correcaoPaginas.length - 1) {
+        paginaAtual++;
+        mostrarPaginaCorrecao(paginaAtual);
+      }
+    };
+    // Mostrar a primeira página ao abrir o spoiler
+    document.getElementById('spoiler-correcao').addEventListener('toggle', function() {
+      if (this.open) mostrarPaginaCorrecao(0);
+    });
+
+    let aguardandoTransicao = false;
+
+    function mostrarTransicao(texto) {
+      document.getElementById('quiz-form').style.display = 'none';
+      document.getElementById('aviso-transicao').style.display = 'flex';
+      document.getElementById('texto-transicao').innerHTML = texto;
+      aguardandoTransicao = true;
+    }
+
+    function continuarTransicao() {
+      document.getElementById('aviso-transicao').style.display = 'none';
+      document.getElementById('quiz-form').style.display = 'flex';
+      aguardandoTransicao = false;
+      steps[currentStep].classList.add('active');
+      updateProgressBar();
+    }
+
+    // Adicione no início do quiz
+    window.onbeforeunload = function(e) {
+      if (!enviado) {
+        e.preventDefault();
+        e.returnValue = 'Se você sair, suas respostas serão enviadas e não poderá voltar!';
+        return e.returnValue;
+      }
+    };
+
+    // Após o envio do formulário, remova o alerta
+    form.addEventListener('submit', function(e) {
+      enviado = true;
+      window.onbeforeunload = null;
+    });
+
+    // Tenta enviar automaticamente ao sair (não é garantido)
+    window.addEventListener('beforeunload', function (e) {
+      if (!enviado) {
+        document.getElementById('quiz-form').requestSubmit();
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+    // Bloqueia botão direito
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Bloqueia teclas de atalho comuns
+    document.addEventListener('keydown', function(e) {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") ||
+        (e.ctrlKey && e.key.toLowerCase() === "u") ||
+        (e.ctrlKey && e.key.toLowerCase() === "c") ||
+        (e.ctrlKey && e.key.toLowerCase() === "v") ||
+        (e.ctrlKey && e.key.toLowerCase() === "s") ||
+        (e.ctrlKey && e.key.toLowerCase() === "p")
+      ) {
+        e.preventDefault();
+      }
+    });
+
+    // Loader de abertura
+    window.addEventListener('load', function() {
+      document.getElementById('page-loader').style.display = 'none';
     });
   </script>
 </body>
