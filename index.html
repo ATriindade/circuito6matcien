@@ -1145,6 +1145,35 @@
         `;
         document.body.innerHTML = '';
         document.body.appendChild(confirmDiv);
+
+        // Mostrar respostas marcadas pelo aluno após o envio
+setTimeout(() => {
+  let respostasMarcadas = [];
+  for (let i = 0; i < nomesQuestoes.length; i++) {
+    const marcada = form.querySelector(`input[name="${nomesQuestoes[i]}"]:checked`);
+    let resposta = '';
+    if (marcada) {
+      const label = form.querySelector(`label[for="${marcada.id}"]`);
+      resposta = label ? label.innerText : marcada.value;
+    } else {
+      resposta = '<i>Não respondida</i>';
+    }
+    respostasMarcadas.push(
+      `<b>${textosQuestoes[i]}</b><br>Sua resposta: ${resposta}<br><br>`
+    );
+  }
+  const respostasDiv = document.createElement('div');
+  respostasDiv.className = 'form-card';
+  respostasDiv.style.margin = '30px auto';
+  respostasDiv.style.maxWidth = '600px';
+  respostasDiv.innerHTML = `
+    <div class="form-title">Suas respostas</div>
+    <div style="text-align:left;">${respostasMarcadas.join('')}</div>
+    <div style="margin-top:24px;color:#1de982;text-align:center;">Obrigado por participar do Circuito!<br>Você já pode fechar esta página.</div>
+  `;
+  document.body.innerHTML = '';
+  document.body.appendChild(respostasDiv);
+}, 2200); // espera 2,2 segundos para garantir que a mensagem de "Respostas enviadas!" apareça antes
       });
     });
 
