@@ -1119,18 +1119,32 @@
       const formData = new FormData(form);
 
       // Envia para o Apps Script
-      fetch('https://script.google.com/macros/s/AKfycbyAVK-bf_qAv8iJBWqa7kZmrnC68xc9c6RTQZg3GLbwaXKKcBtmf3wBbB9SCkys_TSe/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbxr6XLNzMGLD_WEUM1-EQBlxdd6YTd7nBXMGO71RT_e25DzFtLCUAGnQBOHbqdDcs41/exec', {
         method: "POST",
         body: formData
       })
       .finally(() => {
         document.getElementById('sending-loader').style.display = 'none';
-        document.getElementById('resultado').style.display = 'flex';
-        document.getElementById('mensagem-resultado').innerHTML =
-          `Você acertou <b>${acertos}</b> de <b>${gabarito.length}</b> perguntas!<br><span style="color:#1de982">Respostas enviadas com sucesso!</span>`;
-        mostrarPaginaCorrecao(0); // Mostra a primeira página da correção
-        document.getElementById('pontuacao-geral').innerHTML =
-          `<b>Respondeu: ${acertos} de ${gabarito.length} perguntas</b>`;
+        // Mensagem de confirmação estilizada
+        const confirmDiv = document.createElement('div');
+        confirmDiv.style.display = 'flex';
+        confirmDiv.style.flexDirection = 'column';
+        confirmDiv.style.alignItems = 'center';
+        confirmDiv.style.justifyContent = 'center';
+        confirmDiv.style.background = '#162c20';
+        confirmDiv.style.border = '2.5px solid #1de982';
+        confirmDiv.style.borderRadius = '18px';
+        confirmDiv.style.boxShadow = '0 8px 32px #0a1a12, 0 1.5px 8px #1b3c2b66';
+        confirmDiv.style.padding = '38px 28px 32px 28px';
+        confirmDiv.style.maxWidth = '400px';
+        confirmDiv.style.margin = '60px auto 0 auto';
+        confirmDiv.innerHTML = `
+          <span style="font-size:3.2rem; color:#1de982; filter:drop-shadow(0 0 8px #1de98288); margin-bottom:18px;">🎉</span>
+          <div style="font-size:2rem; color:#1de982; font-weight:900; text-align:center; margin-bottom:10px;">Respostas enviadas!</div>
+          <div style="color:#b2dfdb; font-size:1.15rem; text-align:center; margin-bottom:18px;">Suas respostas foram registradas com sucesso.<br>Obrigado por participar do Circuito!<br><span style='color:#43e97b;'>Você já pode fechar esta página.</span></div>
+        `;
+        document.body.innerHTML = '';
+        document.body.appendChild(confirmDiv);
       });
     });
 
